@@ -1,0 +1,15 @@
+{
+    "source": "dahliaos-official",
+    "host-location": "https://dahliaos.io/packages/index.json",
+    "packages": [
+        {
+            "id": "io.dahliaos.pkgdemo",
+            "name": "pkgdemo",
+            "version": "1.0",
+            "description": "Simple demo for package installation on dahliaOS",
+            "file": "https://dahliaos.io/packages/demo.pkg",
+            "size": "TBD",
+            "hash": "ABCDE12345678910"
+        }
+    ]
+}

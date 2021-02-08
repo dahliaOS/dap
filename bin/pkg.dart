@@ -1,51 +1,32 @@
-import 'dart:convert';
+import 'package:pkg/pkg.dart' as pkg;
+import 'package:args/args.dart';
 import 'dart:io';
 
-import 'package:args/args.dart';
-
-const lineNumber = 'line-number';
-
-ArgResults argResults;
-
 void main(List<String> arguments) {
-  exitCode = 0; // presume success
-  final parser = ArgParser()
-    ..addFlag(lineNumber, negatable: false, abbr: 'n');
-
-  argResults = parser.parse(arguments);
-  final paths = argResults.rest;
-
-  dcat(paths, argResults[lineNumber] as bool);
-}
-
-Future dcat(List<String> paths, bool showLineNumbers) async {
-  if (paths.isEmpty) {
-    // No files provided as arguments. Read from stdin and print each line.
-    await stdin.pipe(stdout);
-  } else {
-    for (var path in paths) {
-      var lineNumber = 1;
-      final lines = utf8.decoder
-          .bind(File(path).openRead())
-          .transform(const LineSplitter());
-      try {
-        await for (var line in lines) {
-          if (showLineNumbers) {
-            stdout.write('${lineNumber++} ');
-          }
-          stdout.writeln(line);
-        }
-      } catch (_) {
-        await _handleError(path);
-      }
+  const pkgManagerName = 'pkg';
+  if (arguments[0] == 'install') {
+    if (arguments.contains('-y') && arguments.length >= 2) {
+      // Install the package with no input from the user
+pkg.validateInfo(arguments);
+      //pkg.installApplication(name, false);
+      
+    }
+    else if (arguments.contains("-y") == false && arguments.length >= 2){
+      // Ask the user to confirm before installing the package
+      print('did not contain y, good');
+    }
+    else {
+      // Indicate that no package was specified in input
+      print(pkgManagerName.toUpperCase()+': ERROR: no package specified');
     }
   }
-}
+  else if (arguments[0] == 'search'){
+    // Query for package from database using command input, and print results
+    print("yep, that's a search");
+  } 
 
-Future _handleError(String path) async {
-  if (await FileSystemEntity.isDirectory(path)) {
-    stderr.writeln('error: $path is a directory');
-  } else {
-    exitCode = 2;
+  else {
+    // Print an error to indicate the command is not valid
+    print(pkgManagerName.toUpperCase()+': ERROR: unknown command ' + arguments[0]);
   }
 }

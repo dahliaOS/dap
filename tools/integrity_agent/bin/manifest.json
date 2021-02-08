@@ -1,0 +1,11 @@
+{
+    "id": "io.dahliaos.pkgdemo",
+    "name": "pkgdemo",
+    "visualname":"Package Demo",
+    "version": "1.0",
+    "description": "Simple demo for package installation on dahliaOS",
+    "author": "Noah Cain",
+    "icon": "none",
+    "type": "console",
+    "executable": "app.exec"
+}
