@@ -1,5 +1,7 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# PKG - a simple, lightweight package manager
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+## Table of Contents
+
+## Usage
+## Development
+## Integrity Agent
