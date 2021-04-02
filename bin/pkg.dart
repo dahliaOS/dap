@@ -8,7 +8,14 @@ void main(List<String> arguments) {
       // Install the package with no input from the user
       pkg.validateInfo(arguments);
       //TODO, in the future, use this to iiterate beween the list pkg.applications.forEach((element) => );
-      pkg.validateInstall();
+      print('Selected package: ' +
+          pkg.realName +
+          ' - version ' +
+          pkg.version +
+          ' - ' +
+          pkg.description);
+      print('Installing');
+      pkg.checkArchitecture();
       pkg.downloadFile(
           pkg.applicationPath, pkg.officialRepository, pkg.dapFile);
       pkg.installApplication();
