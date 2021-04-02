@@ -9,7 +9,7 @@ var officialRepository = 'https://nmcain.github.io/packages/';
 var applicationPath = Platform.environment['HOME'] + '/Applications';
 //Check if mutiple packages are selected for install
 List applications;
-
+List searchedItem;
 //Init package values
 var dapFile;
 var realName;
@@ -137,6 +137,50 @@ void installApplication() {
   ]);
   //Mark downloaded file as executable
   //link file to appDir/links
+}
+
+void searchInfo(List input) {
+  searchedItem = List<String>.from(input);
+  searchedItem.removeWhere((item) => item == 'search');
+  var isPlural = searchedItem.length > 1;
+  //print(applications.length);
+  if (isPlural) {
+    print('Search for one item at a time.');
+  }
+  SearchApplicationManifest(searchedItem[0].toString());
+}
+
+void SearchApplicationManifest(String inputAltName) {
+  //print(inputAltName);
+  //var appDir = dirname(Platform.script.toString()).substring(7);
+  print('Reading ' + officialRepository + 'manifest.json');
+
+  var rawJson = Process.runSync('curl', [officialRepository + 'manifest.json'])
+      .stdout
+      .toString();
+
+  final jsonString = rawJson;
+  final json = jsonDecode(jsonString);
+  final manifest = PackageManifest.fromJson(json);
+
+  print('Found:');
+  print('"' +
+      manifest.packages
+          .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+          .altName +
+      '" - ' +
+      manifest.packages
+          .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+          .realName +
+      ' - version: ' +
+      manifest.packages
+          .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+          .version +
+      ' - ' +
+      manifest.packages
+          .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+          .description);
+  // ignore: prefer_single_quotes
 }
 // get sum of file
 //check if it matches web sum
