@@ -84,17 +84,14 @@ void CheckApplicationManifest(String inputAltName) {
   }
 }
 
-void validateInstall() {
+void checkArchitecture() {
   if (!installable) {
     print(pkgManagerName.toUpperCase() + ': ERROR: incompatible architecture!');
     exit(1);
   }
-  print('Selected package: ' +
-      realName +
-      ' - version ' +
-      version +
-      ' - ' +
-      description);
+}
+
+void validateInstall() {
   stdout.write('Do you want to continue? [Y/n] ');
   var consent = stdin.readLineSync();
   if (consent != 'Y' && consent != 'y') {
