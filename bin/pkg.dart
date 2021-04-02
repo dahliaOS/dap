@@ -49,6 +49,9 @@ void main(List<String> arguments) {
       print(pkg.pkgManagerName.toUpperCase() + ': ERROR: no package specified');
     }
   } else if (arguments[0] == 'remove') {
+    pkg.removalInfo(arguments);
+    pkg.validateInstall();
+    pkg.removeApplication();
   } else if (arguments[0] == 'search') {
     pkg.searchInfo(arguments);
   } else if (arguments.length <= 1) {

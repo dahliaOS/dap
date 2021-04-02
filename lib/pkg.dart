@@ -10,6 +10,9 @@ var applicationPath = Platform.environment['HOME'] + '/Applications';
 //Check if mutiple packages are selected for install
 List applications;
 List searchedItem;
+//removal package values
+var rmdapFile;
+var rmaltName;
 //Init package values
 var dapFile;
 var realName;
@@ -108,7 +111,7 @@ void downloadFile(String installationPath, String repository, String dapFile) {
       ' to ' +
       installationPath +
       '/data ...');
-  Process.runSync('wget', [repository + dapFile, '-P', fileSave]);
+  Process.runSync('wget', [repository + dapFile, '-NP', fileSave]);
 }
 
 void installApplication() {
@@ -182,6 +185,45 @@ void SearchApplicationManifest(String inputAltName) {
           .description);
   // ignore: prefer_single_quotes
 }
-// get sum of file
-//check if it matches web sum
-//save sum to ro file in ~/.pkg/hash
+
+void removalInfo(List input) {
+  var rmapplications = List<String>.from(input);
+  rmapplications.removeWhere((item) => item == 'remove');
+  var isPlural = rmapplications.length > 1;
+  //print(applications.length);
+  if (isPlural) {
+    print('You can only remove one application at a time!');
+  }
+  removalManifest(rmapplications[0].toString());
+}
+
+void removalManifest(String inputAltName) {
+  //TODO: remove the online requirement for app removals
+  print('Reading ' + officialRepository + 'manifest.json');
+
+  var rawJson = Process.runSync('curl', [officialRepository + 'manifest.json'])
+      .stdout
+      .toString();
+
+  final jsonString = rawJson;
+  final json = jsonDecode(jsonString);
+  final manifest = PackageManifest.fromJson(json);
+  rmdapFile = manifest.packages
+          .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+          .id +
+      '.dap';
+
+  rmaltName = manifest.packages
+      .firstWhere((e) => e.altName == inputAltName, orElse: () => null)
+      .altName;
+  print('The package ' + rmaltName + ' (' + rmdapFile + ') will be removed.');
+  // ignore: prefer_single_quotes
+}
+
+void removeApplication() {
+  print('Removing ' + rmaltName);
+  Process.runSync('rm', [applicationPath + '/data/' + rmdapFile]);
+  print('Unlinking file: ' + rmdapFile);
+  Process.runSync('rm', [applicationPath + '/links/' + rmaltName]);
+  print('Successfully removed ' + rmaltName);
+}
