@@ -104,24 +104,14 @@ void validateInstall() {
 }
 
 void downloadFile(String installationPath, String repository, String dapFile) {
-  var client = HttpClient();
-  var _downloadData = <int>[];
-  var fileSave = File(installationPath + '/data/' + dapFile);
+  var fileSave = installationPath + '/data/';
   print('Downloading file: ' +
       repository +
       dapFile +
       ' to ' +
       installationPath +
-      '/data');
-  client
-      .getUrl(Uri.parse(repository + dapFile))
-      .then((HttpClientRequest request) {
-    return request.close();
-  }).then((HttpClientResponse response) {
-    response.listen((d) => _downloadData.addAll(d), onDone: () {
-      fileSave.writeAsBytes(_downloadData);
-    });
-  });
+      '/data ...');
+  Process.runSync('wget', [repository + dapFile, '-P', fileSave]);
 }
 
 void installApplication() {
