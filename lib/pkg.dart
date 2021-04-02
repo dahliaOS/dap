@@ -24,7 +24,7 @@ void validateInfo(List input) {
   applications = List<String>.from(input);
   applications.removeWhere((item) => item == '-y');
   applications.removeWhere((item) => item == 'install');
-  bool isPlural = applications.length > 1;
+  var isPlural = applications.length > 1;
   //print(applications.length);
   print(isPlural
       ? 'Searching for packages ' + applications.toString()
@@ -89,21 +89,21 @@ void validateInstall() {
     print(pkgManagerName.toUpperCase() + ': ERROR: incompatible architecture!');
     exit(1);
   }
-  print("Selected package: " +
+  print('Selected package: ' +
       realName +
-      " - version " +
+      ' - version ' +
       version +
-      " - " +
+      ' - ' +
       description);
-  stdout.write("Do you want to continue? [Y/n] ");
-  String consent = stdin.readLineSync();
-  if (consent != "Y" && consent != "y") {
+  stdout.write('Do you want to continue? [Y/n] ');
+  var consent = stdin.readLineSync();
+  if (consent != 'Y' && consent != 'y') {
     print(pkgManagerName.toUpperCase() + ': Operation cancelled');
     exit(0);
   }
 }
 
-bool downloadFile(String installationPath, String repository, String dapFile) {
+void downloadFile(String installationPath, String repository, String dapFile) {
   var client = HttpClient();
   var _downloadData = <int>[];
   var fileSave = File(installationPath + '/data/' + dapFile);
@@ -122,11 +122,35 @@ bool downloadFile(String installationPath, String repository, String dapFile) {
       fileSave.writeAsBytes(_downloadData);
     });
   });
-  return (true);
 }
 
-void getApplicationInfo() {}
-void installApplication(String name, bool askConsent) {}
+void installApplication() {
+  print('Checking signature of ' + dapFile);
+  var localHash =
+      Process.runSync('md5sum', [applicationPath + '/data/' + dapFile])
+          .stdout
+          .toString()
+          .substring(0, 32);
+  if (localHash != hash) {
+    print(pkgManagerName.toUpperCase() +
+        ': ERROR: HASH MISMATCH! REMOTE HASH: ' +
+        hash +
+        ' LOCAL HASH: ' +
+        localHash);
+    Process.runSync('rm', [applicationPath + '/data/' + dapFile]);
+    exit(1);
+  }
+  print('Activating file: ' + dapFile);
+  Process.runSync('chmod', ['+x', applicationPath + '/data/' + dapFile]);
+  print('Linking file: ' + dapFile);
+  Process.runSync('ln', [
+    '-s',
+    applicationPath + '/data/' + dapFile,
+    applicationPath + '/links/' + altName
+  ]);
+  //Mark downloaded file as executable
+  //link file to appDir/links
+}
 // get sum of file
 //check if it matches web sum
 //save sum to ro file in ~/.pkg/hash

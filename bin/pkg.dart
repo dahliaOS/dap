@@ -11,6 +11,7 @@ void main(List<String> arguments) {
       pkg.validateInstall();
       pkg.downloadFile(
           pkg.applicationPath, pkg.officialRepository, pkg.dapFile);
+      pkg.installApplication();
       print(pkg.realName +
           ' has been successfully installed. Launch it from the command line with: "' +
           pkg.altName +
