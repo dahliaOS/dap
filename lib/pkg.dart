@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 
 const pkgManagerName = 'dap';
-var officialRepository = 'https://dahliaos.github.io/packages/';
+var officialRepository = 'https://packages.dahliaos.io/manifest.json';
 var applicationPath = Platform.environment['HOME'] + '/Applications';
 //Check if mutiple packages are selected for install
 List applications;
