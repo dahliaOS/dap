@@ -97,7 +97,7 @@ void checkArchitecture() {
 void validateInstall() {
   stdout.write('Do you want to continue? [Y/n] ');
   var consent = stdin.readLineSync();
-  if (consent != 'Y' && consent != 'y') {
+  if (consent != 'Y' && consent != 'y' && !consent.isEmpty) {
     print(pkgManagerName.toUpperCase() + ': Operation cancelled');
     exit(0);
   }
