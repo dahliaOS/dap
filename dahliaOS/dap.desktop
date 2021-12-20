@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=System Recovery
-Exec=system_recovery
+Name=dap
+Exec=dap
 Terminal=false
-Icon=system_recovery
+Icon=dap
 Type=Application
 Categories=Utility;
