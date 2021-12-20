@@ -1,0 +1,10 @@
+{
+      "id": "io.dahliaos.dap",
+      "altName": "dap",
+      "realName": "dap",
+      "version": "dahliaOS-latest",
+      "description": "Install packages from the commandline. If you can read this, you are probably using it.",
+      "sourceCode": "https://github.com/dahliaOS/dap",
+      "hash": "DAP_AUTOMATION_PKGHASH",
+      "architecture": "x86_64"
+},

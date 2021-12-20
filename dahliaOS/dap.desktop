@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=System Recovery
+Exec=system_recovery
+Terminal=false
+Icon=system_recovery
+Type=Application
+Categories=Utility;
