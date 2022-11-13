@@ -7,7 +7,7 @@ get_packages:
 	@dart pub get
 
 run_unit: get_packages ## Runs unit tests
-	@echo "Running flutter test..."
+	@echo "Running dart test..."
 	@flutter test || (echo "Error while running tests"; exit 1)
 
 format:
