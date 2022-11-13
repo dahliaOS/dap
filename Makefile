@@ -8,7 +8,7 @@ get_packages:
 
 run_unit: get_packages ## Runs unit tests
 	@echo "Running dart test..."
-	@flutter test || (echo "Error while running tests"; exit 1)
+	@dart test || (echo "Error while running tests"; exit 1)
 
 format:
 	@echo "Formatting the code"
